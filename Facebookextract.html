@@ -1,0 +1,149 @@
+<html>
+ 
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.rawgit.com/noelboss/featherlight/1.4.0/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '287945934894695',
+      status     : true,
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+   
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "http://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+ 
+
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    FB.login(function(response) {
+            if(response.authResponse) {
+              alert('dshfg');
+            } else {
+              alert('not logged in');
+            }
+     },{scope:'email,public_profile'});
+  });
+ }
+function makecsv(text){
+
+
+
+pom.click();
+}
+$(document).ready(function() {
+
+$(".extract").click(function(){
+var input = document.getElementById("pageid").value;
+ 
+
+ var content = [['Name', 'Email', 'Phone', 'Faebook Link']];
+var a = input.split(" ");
+var finalVal='';
+ var str = "The rain in SPAIN stays mainly in the plain"; 
+
+for (var k = 0; k < a.length; k++)
+{
+var res = a[k].split(/(((https?:\/\/)?(www\.)?facebook\.com\/))?(.*\/)?([a-zA-Z0-9.]*)($|\?.*)/g);
+if(res[6]!='')
+{
+  a[k]=res[6];
+  var number=  a[k].split('/-/');
+  if(number!='')
+  {
+    
+   a[k]=number[number.length-1];
+  }
+alert(a[k]);
+
+}
+else
+{
+  a[k]=res[5];
+  var number=  a[k].split('-');
+  if(number!='')
+  {
+  
+   a[k]=number[number.length-1];
+  }
+alert(a[k]);
+}
+var page_id="/"+a[k]+"?fields=name,emails,link,phone";
+
+
+FB.api(
+   page_id,
+    function (response) {
+      if (response && !response.error) {
+       
+var name=response["name"];
+        var email=response["emails"][0]; 
+        var phone=response["phone"];
+        var link= response["link"];
+
+if(name!=''&&email!=''&&phone!=''&&link!='')
+{
+ document.getElementById("demo").innerHTML = "Email:" + response["emails"][0] + "  Phone:  " +response["phone"] +  " Link: " +  response["link"] ;
+var morecontent =[name,email,phone,link]; 
+content.push(morecontent);
+
+for (var i = 0; i < content.length; i++) {
+    var value = content[i];
+    
+    for (var j = 0; j < value.length; j++) {
+        var innerValue = value[j];
+        var result = innerValue.replace(/"/g, '""');
+        if (result.search(/("|,|\n)/g) >= 0)
+            result = '"' + result + '"';
+        if (j > 0)
+            finalVal += ',';
+        finalVal += result;
+    }
+    
+    finalVal += '\n';  
+if(k==a.length && i==content.length-1)
+{
+
+var pom = document.createElement('a');
+
+pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
+
+pom.setAttribute('download', 'test.csv');
+pom.click();  
+}
+}
+
+
+
+}
+       }
+    }
+);
+
+}
+
+});
+});
+</script>
+<body>
+<fb:login-button
+  scope="public_profile,email"
+  onlogin="checkLoginState();">
+</fb:login-button>
+<textarea style="width:800px;height:200px;" type="text" id="pageid">
+</textarea>
+<br/>
+<input type="button" value="SUBMIT" class="extract"/>
+
+<p id="demo"></p>
+</body>
+</html>
