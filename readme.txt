@@ -1,7 +1,3 @@
-Hi.
-This is a free script and you can use it anywhere.
+Hi Watch the demo of this project here
 
-If you find this script useful do share this with your friends.
----------------------------------------------------------------
-website: http://www.PHPHive.info
-facebook: https://www.facebook.com/pages/PHPHive/1548210492057258
+https://youtu.be/Bn7ICrS-FOA
