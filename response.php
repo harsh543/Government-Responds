@@ -13,24 +13,24 @@ $error = FALSE;
 
  if(isset($_POST["mode"]) && $_POST["mode"] == "type2") {
  $app_access_token = $app_id . '|' . $app_secret;
-
-$response = $facebook->api( '/'.$user_id.'/notifications', 'POST', array(
-
-                'template' => $_POST['msg'],
-
-                'href' => 'http://ec2-52-66-141-30.ap-south-1.compute.amazonaws.com/post/fromgovt.php',
-
-                'access_token' => $access_token
-            ) );      
-  try {
-    $posted = $facebook->api('/me/feed/', 'post', $param);
-    if (strlen($posted["id"]) > 0 ) $success = TRUE;
-  } catch  (FacebookApiException $e) {
-    $errMsg = $e->getMessage();
-    $error = TRUE;
-  }
-  
-} 
+$fields='id,name,fan_count';
+ $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v2.8/search?q=$query&type=$type&limit=$limit" . $accessToken.$fields); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+$response = $request->execute();
+$graphObject = $response->getGraphObject();
+$items = json_decode($output);
+$res['data'] = $items->data;
+$page_id=$res['data']['id'];   
+$request = new FacebookRequest(
+  $session,
+  'GET',
+  '/'.$page_id.'/feed'
+);
+$response = $request->execute();
+$graphObject = $response->getGraphObject();
+   if(strpos($response, $)!==false) {echo 'your response for your query is'.$response;}
+ } 
 
 ?>
 <div class="container mainbody">
